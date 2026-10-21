@@ -11,6 +11,8 @@ button { color: inherit; cursor: pointer; }
 .archive-shell { min-height: 100vh; padding: 22px 24px; background: radial-gradient(circle at 50% 0%, #22231f 0%, #161715 46%); }
 .topbar { height: 42px; display: flex; align-items: flex-start; justify-content: space-between; }
 .wordmark { border: 0; background: none; padding: 6px 22px; font: 24px Georgia, serif; letter-spacing: -.6px; }
+.archive-shell:has(.home-view) .topbar { justify-content: flex-end; }
+.archive-shell:has(.home-view) .wordmark { position: absolute; top: calc(50% - 124px); left: 50%; transform: translateX(-50%); }
 .wordmark span { color: var(--olive); }
 .top-actions { display: flex; gap: 8px; padding: 0 21px; }
 .theme-button, .icon-button { border: 1px solid #353630; border-radius: 8px; background: linear-gradient(#282925, #20211f); color: #eee; height: 27px; padding: 0 11px; font-size: 12px; }
