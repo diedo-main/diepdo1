@@ -78,7 +78,6 @@ export default function Page() {
     </header>
     {view === 'home' && <section className="home-view">
       <form className="search-box home-search" onSubmit={(e) => { e.preventDefault(); search() }}><Search /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Tìm lại một câu chuyện, từ khóa hoặc thẻ..." aria-label="Tìm kiếm" /></form>
-      <p className="search-hint">Tìm trong confession, transcript và ghi chú cá nhân</p>
     </section>}
     {view === 'search' && <section className="search-view">
       <form className="search-box results-search" onSubmit={(e) => { e.preventDefault(); search() }}><Search /><input autoFocus value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Tìm kiếm" aria-label="Tìm kiếm" />{query && <button type="button" className="clear-button" onClick={() => setQuery('')} aria-label="Xóa tìm kiếm"><X /></button>}</form>
