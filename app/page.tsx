@@ -75,7 +75,6 @@ export default function Page() {
   return <main className="archive-shell">
     <header className="topbar">
       <button className="wordmark" onClick={() => { setView('home'); setSelected(null); setNotesOpen(false) }}>Life <span>Archive</span></button>
-      <div className="top-actions"><button className="theme-button">Thế</button><button className="icon-button" aria-label="Mở menu"><MoreHorizontal /></button></div>
     </header>
     {view === 'home' && <section className="home-view">
       <form className="search-box home-search" onSubmit={(e) => { e.preventDefault(); search() }}><Search /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Tìm lại một câu chuyện, từ khóa hoặc thẻ..." aria-label="Tìm kiếm" /></form>
