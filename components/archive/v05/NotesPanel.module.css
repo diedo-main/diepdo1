@@ -1,0 +1,279 @@
+.panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(440px, 92vw);
+  height: 100vh;
+  background: #171815;
+  border-left: 1px solid #363731;
+  box-shadow: -12px 0 32px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.panelExpanded {
+  width: min(680px, 96vw);
+}
+
+.header {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  border-bottom: 1px solid #30312a;
+  background: #1c1d19;
+  flex-shrink: 0;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #f1efe9;
+}
+
+.saveStatus {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #a4a39b;
+}
+
+.saveStatusSuccess {
+  color: var(--olive);
+}
+
+.saveStatusError {
+  color: #e07a5f;
+}
+
+.retryButton {
+  border: 1px solid #5a382e;
+  border-radius: 4px;
+  background: #2a1c18;
+  color: #f4a261;
+  padding: 1px 6px;
+  font-size: 10px;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.iconButton {
+  width: 28px;
+  height: 28px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: #b3b1a8;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.iconButton:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.contentBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 18px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #d1cfc7;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.notesSelector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.notePill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid #363730;
+  border-radius: 6px;
+  background: #20211d;
+  color: #b5b4aa;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.notePill:hover {
+  border-color: #4f5045;
+  color: #eee;
+}
+
+.notePillActive {
+  border-color: var(--olive);
+  background: rgba(179, 199, 133, 0.12);
+  color: #f1efe9;
+  font-weight: 500;
+}
+
+.addNoteButton {
+  border: 1px dashed #404139;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--olive);
+  padding: 4px 9px;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s ease;
+}
+
+.addNoteButton:hover {
+  border-color: var(--olive);
+}
+
+.tagsList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.tagPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #2b2c25;
+  border: 1px solid #3d3e35;
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 11px;
+  color: #dbddce;
+}
+
+.removeTagBtn {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #8c8b84;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.removeTagBtn:hover {
+  color: #ff6b6b;
+}
+
+.addTagRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.tagInput {
+  flex: 1;
+  min-width: 0;
+  height: 28px;
+  border: 1px solid #363730;
+  border-radius: 6px;
+  background: #1b1c18;
+  color: #eee;
+  padding: 0 8px;
+  font-size: 11px;
+  outline: none;
+}
+
+.tagInput:focus {
+  border-color: var(--olive);
+}
+
+.confirmTagBtn {
+  height: 28px;
+  border: 1px solid #45473d;
+  border-radius: 6px;
+  background: #2a2c24;
+  color: var(--olive);
+  padding: 0 10px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.deleteNoteRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.deleteNoteBtn {
+  border: 0;
+  background: transparent;
+  color: #8c8b84;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.deleteNoteBtn:hover {
+  color: #e07a5f;
+}
+
+/* Mobile full-screen sheet */
+@media (max-width: 768px) {
+  .panel {
+    width: 100vw;
+    height: 100vh;
+    border-left: 0;
+  }
+}
+

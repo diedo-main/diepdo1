@@ -1,0 +1,154 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  z-index: 2000;
+  padding: 16px;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal {
+  width: min(500px, 94vw);
+  background: #1b1c19;
+  border: 1px solid #3d3e37;
+  border-radius: 12px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #f1efe9;
+}
+
+.closeButton {
+  border: 0;
+  background: transparent;
+  color: #aaa9a2;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.closeButton:hover {
+  color: #fff;
+}
+
+.description {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #b5b3aa;
+}
+
+.previewBox {
+  background: #232420;
+  border: 1px solid #363730;
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.previewHeading {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--olive);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.previewText {
+  margin: 0;
+  font-size: 12px;
+  color: #d8d6ce;
+  line-height: 1.45;
+  max-height: 90px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.tagPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tagPill {
+  background: #2e3027;
+  border: 1px solid #3f4135;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 10.5px;
+  color: #dbddce;
+}
+
+.backupNotice {
+  font-size: 11px;
+  color: #9c9a91;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.dismissButton {
+  border: 1px solid #383932;
+  border-radius: 7px;
+  background: #21221e;
+  color: #aaa9a2;
+  padding: 7px 14px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.dismissButton:hover {
+  color: #eee;
+}
+
+.confirmButton {
+  border: 0;
+  border-radius: 7px;
+  background: var(--olive);
+  color: #1a1c15;
+  font-weight: 600;
+  padding: 7px 16px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.confirmButton:hover {
+  background: #c3d795;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+

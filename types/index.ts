@@ -16,6 +16,8 @@ export type Story = {
   contentStatus?: ContentStatus
   sourceDocUrl?: string | null
   extractedSender?: string | null
+  notesCount?: number
+  hasNotes?: boolean
 }
 
 export type ViewMode = 'home' | 'search' | 'reading'
@@ -27,3 +29,31 @@ export type StoriesApiResponse = {
   limit: number
   hasMore: boolean
 }
+
+export interface NoteRecord {
+  id: number
+  episode_id: string
+  user_id: string
+  title: string
+  content: string
+  created_at: string
+  updated_at: string
+}
+
+export interface TagRecord {
+  id: number
+  name: string
+  created_at?: string
+}
+
+export type SortField =
+  | 'pub_date'
+  | 'title'
+  | 'extracted_sender'
+  | 'duration_seconds'
+  | 'content_status'
+  | 'source'
+  | 'id'
+  | 'guid'
+
+export type SortOrder = 'asc' | 'desc'

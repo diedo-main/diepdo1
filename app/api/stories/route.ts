@@ -4,6 +4,17 @@ import { mapDbToStory, removeVietnameseTones } from '@/lib/stories'
 
 export const dynamic = 'force-dynamic'
 
+const ALLOWED_SORT_FIELDS = [
+  'pub_date',
+  'title',
+  'extracted_sender',
+  'duration_seconds',
+  'content_status',
+  'source',
+  'id',
+  'guid',
+]
+
 export async function GET(request: NextRequest) {
   try {
     const supabase = await createClient()
@@ -38,34 +49,83 @@ export async function GET(request: NextRequest) {
 
     // 3. Parse query parameters
     const { searchParams } = new URL(request.url)
-    const rawQuery = searchParams.get('q') || ''
-    const normalizedQuery = removeVietnameseTones(rawQuery)
+    const rawQuery = (searchParams.get('q') || '').trim()
     const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10))
     const limit = Math.min(50, Math.max(1, parseInt(searchParams.get('limit') || '20', 10)))
-    const status = searchParams.get('status') // optional: 'full' | 'partial' | 'external' | 'missing'
-
     const from = (page - 1) * limit
     const to = from + limit - 1
 
-    // 4. Stage 1: Fast ID retrieval & pagination using GIN Trigram index on search_text
-    let baseQuery = supabase
-      .from('rss_episodes')
-      .select('id', { count: 'exact' })
+    // Whitelisted sort parameters
+    const rawSortBy = (searchParams.get('sortBy') || 'pub_date').toLowerCase()
+    const sortBy = ALLOWED_SORT_FIELDS.includes(rawSortBy) ? rawSortBy : 'pub_date'
+    const sortOrder = searchParams.get('sortOrder')?.toLowerCase() === 'asc' ? 'asc' : 'desc'
+
+    // Filter parameters
+    const statusParam = searchParams.get('status')
+    const status =
+      statusParam && ['full', 'partial', 'external', 'missing'].includes(statusParam)
+        ? statusParam
+        : null
+    const tag = searchParams.get('tag') || null
+    const hasNotesParam = searchParams.get('hasNotes')
+    const hasNotes =
+      hasNotesParam === 'true' ? true : hasNotesParam === 'false' ? false : null
+
+    // 4. Primary: Attempt RPC search_archive_stories_v05
+    const { data: rpcRows, error: rpcErr } = await supabase.rpc(
+      'search_archive_stories_v05',
+      {
+        p_query: rawQuery,
+        p_status: status,
+        p_tag: tag,
+        p_has_notes: hasNotes,
+        p_sort_by: sortBy,
+        p_sort_order: sortOrder,
+        p_limit: limit,
+        p_offset: from,
+      }
+    )
+
+    if (!rpcErr && rpcRows && Array.isArray(rpcRows)) {
+      const total = rpcRows.length > 0 ? Number(rpcRows[0].total_count) : 0
+      const stories = rpcRows.map((r: any) =>
+        mapDbToStory({
+          ...r,
+          notes_count: Number(r.notes_count || 0),
+          has_notes: Boolean(r.has_notes),
+        })
+      )
+
+      return NextResponse.json({
+        stories,
+        total,
+        page,
+        limit,
+        hasMore: from + stories.length < total,
+      })
+    }
+
+    // 5. Fallback: Query Builder if RPC is not yet deployed in database
+    const normalizedQuery = removeVietnameseTones(rawQuery)
+
+    let baseQuery = supabase.from('rss_episodes').select('id', { count: 'exact' })
 
     if (normalizedQuery) {
       baseQuery = baseQuery.ilike('search_text', `%${normalizedQuery}%`)
     }
 
-    if (status && ['full', 'partial', 'external', 'missing'].includes(status)) {
+    if (status) {
       baseQuery = baseQuery.eq('content_status', status)
     }
 
+    const sortColumn =
+      sortBy === 'id' ? 'guid' : sortBy === 'source' ? 'source_doc_url' : sortBy
     const {
       data: idRows,
       count,
       error: searchErr,
     } = await baseQuery
-      .order('pub_date', { ascending: false })
+      .order(sortColumn, { ascending: sortOrder === 'asc' })
       .range(from, to)
 
     if (searchErr) {
@@ -88,8 +148,7 @@ export async function GET(request: NextRequest) {
 
     const ids = idRows.map((r) => r.id)
 
-    // 5. Stage 2: Fetch rich summary cards from v_stories
-    // Note: confession_text is intentionally NOT selected here to conserve bandwidth
+    // Stage 2: Fetch rich summary cards from v_stories
     const { data: storyRows, error: storiesErr } = await supabase
       .from('v_stories')
       .select(
@@ -123,4 +182,3 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: message }, { status: 500 })
   }
 }
-

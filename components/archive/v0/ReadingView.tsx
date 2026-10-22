@@ -1,7 +1,7 @@
 'use client'
 
 import { ArrowLeft, ExternalLink, FileText, MoreHorizontal } from 'lucide-react'
-import { Story } from '@/types'
+import { NoteRecord, Story } from '@/types'
 import { AudioPlayer } from './AudioPlayer'
 import { NotesPanel } from './NotesPanel'
 
@@ -22,6 +22,10 @@ interface ReadingViewProps {
   onSaveNote: () => void
   onDeleteNote: () => void
   loadingDetail?: boolean
+  notes?: NoteRecord[]
+  activeNoteId?: number | null
+  onSelectNote?: (noteId: number) => void
+  onCreateNewNote?: () => void
 }
 
 /**
@@ -112,6 +116,10 @@ export function ReadingView({
   onSaveNote,
   onDeleteNote,
   loadingDetail = false,
+  notes = [],
+  activeNoteId = null,
+  onSelectNote,
+  onCreateNewNote,
 }: ReadingViewProps) {
   return (
     <>
@@ -280,6 +288,10 @@ export function ReadingView({
             onSaveNote={onSaveNote}
             onDeleteNote={onDeleteNote}
             onClose={onCloseNotes}
+            notes={notes}
+            activeNoteId={activeNoteId}
+            onSelectNote={onSelectNote}
+            onCreateNewNote={onCreateNewNote}
           />
         )}
       </section>

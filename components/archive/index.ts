@@ -1,6 +1,5 @@
-export * from './HomeView'
-export * from './SearchView'
-export * from './ReadingView'
-export * from './NotesPanel'
-export * from './AudioPlayer'
-
+export * from './VersionSwitcher'
+export * from './MigrationModal'
+export * as v0 from './v0'
+export * as v05 from './v05'
+export * from './v0'
