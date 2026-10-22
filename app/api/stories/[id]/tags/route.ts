@@ -59,22 +59,35 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: 'Không tìm thấy câu chuyện.' }, { status: 404 })
     }
 
-    // Join story_tags with tags table
-    const { data: storyTags, error: tagsErr } = await supabase
+    // 1. Fetch linked tag_ids from story_tags
+    const { data: storyTags, error: storyTagsErr } = await supabase
       .from('story_tags')
-      .select('tag_id, tags:tag_id(id, name)')
+      .select('tag_id')
       .eq('episode_id', episodeId)
       .eq('user_id', user.id)
+
+    if (storyTagsErr) {
+      return NextResponse.json({ error: storyTagsErr.message }, { status: 500 })
+    }
+
+    if (!storyTags || storyTags.length === 0) {
+      return NextResponse.json({ tags: [] })
+    }
+
+    // 2. Fetch tag records from tags table
+    const tagIds = storyTags.map((st) => st.tag_id)
+    const { data: tags, error: tagsErr } = await supabase
+      .from('tags')
+      .select('id, name')
+      .in('id', tagIds)
+      .eq('user_id', user.id)
+      .order('name', { ascending: true })
 
     if (tagsErr) {
       return NextResponse.json({ error: tagsErr.message }, { status: 500 })
     }
 
-    const tags = (storyTags || [])
-      .map((st: any) => st.tags)
-      .filter(Boolean) as Array<{ id: number; name: string }>
-
-    return NextResponse.json({ tags })
+    return NextResponse.json({ tags: tags || [] })
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown server error'
     return NextResponse.json({ error: message }, { status: 500 })

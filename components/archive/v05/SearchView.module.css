@@ -187,6 +187,27 @@
   max-width: 480px;
 }
 
+.noteSnippet {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #b8c49e;
+  font-style: italic;
+  margin: 1px 0;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 480px;
+}
+
+.noteSnippetText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .tags {
   display: flex;
   align-items: center;

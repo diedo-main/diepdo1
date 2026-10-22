@@ -133,7 +133,7 @@ export function AudioPlayer({
         type="button"
         className={styles.playButton}
         onClick={onTogglePlay}
-        aria-label={playing ? 'Tạm dừng phát' : 'Bắt đầu phát audio'}
+        aria-label={playing ? 'Tạm dừng' : 'Bắt đầu phát audio'}
       >
         {playing ? <Pause size={14} /> : <Play size={14} style={{ marginLeft: 2 }} />}
       </button>
@@ -180,10 +180,10 @@ export function AudioPlayer({
           target="_blank"
           rel="noopener noreferrer"
           className={styles.downloadLink}
-          title="Tải audio về máy / Bảo vệ AI"
+          title="Tải audio về máy"
         >
           <Download size={13} />
-          <span>Tải về / Bảo vệ AI</span>
+          <span>Tải về</span>
         </a>
       )}
     </div>

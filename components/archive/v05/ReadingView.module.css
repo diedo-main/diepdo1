@@ -3,7 +3,15 @@
   max-width: 760px;
   margin: 0 auto;
   padding: 5px 24px 60px;
-  transition: max-width 0.2s ease, margin 0.2s ease;
+  transition: max-width 0.25s ease, margin 0.25s ease;
+}
+
+@media (min-width: 1024px) {
+  .readingContainerWithNotes {
+    max-width: 620px;
+    margin-right: 460px;
+    margin-left: max(24px, calc(50vw - 560px));
+  }
 }
 
 .readingSubHeader {
@@ -54,6 +62,99 @@
   border-color: var(--olive);
   background: rgba(179, 199, 133, 0.12);
   color: var(--olive);
+}
+
+.notesBadge {
+  background: var(--olive);
+  color: #171815;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 1px 6px;
+  margin-left: 2px;
+}
+
+.inlineNotesSection {
+  margin: 18px 0 24px;
+  background: rgba(30, 32, 27, 0.85);
+  border: 1px solid rgba(179, 199, 133, 0.25);
+  border-radius: 10px;
+  padding: 14px 16px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
+}
+
+.inlineNotesHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.inlineNotesTitle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #f1efe9;
+}
+
+.inlineNotesEditBtn {
+  border: 0;
+  background: transparent;
+  color: var(--olive);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.15s ease;
+}
+
+.inlineNotesEditBtn:hover {
+  background: rgba(179, 199, 133, 0.12);
+}
+
+.inlineNotesList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.inlineNoteCard {
+  background: rgba(22, 23, 20, 0.9);
+  border: 1px solid #33352c;
+  border-radius: 8px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.inlineNoteCard:hover {
+  border-color: #586043;
+}
+
+.inlineNoteTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #dbddce;
+  margin-bottom: 6px;
+}
+
+.inlineNoteContent {
+  font-size: 12.5px;
+  color: #ceccc5;
+  line-height: 1.55;
+}
+
+.inlineNoteContent p {
+  margin: 0 0 6px;
+}
+
+.inlineNoteContent p:last-child {
+  margin-bottom: 0;
 }
 
 .storyHeading {

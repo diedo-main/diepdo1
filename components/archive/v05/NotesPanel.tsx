@@ -267,6 +267,39 @@ export function NotesPanel({
               </button>
             </div>
           )}
+
+          {/* Saved notes preview list */}
+          {notes.length > 0 && (
+            <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '1px solid #2e3028' }}>
+              <span className={styles.sectionTitle} style={{ marginBottom: '8px', display: 'block' }}>
+                Danh sách ghi chú ({notes.length})
+              </span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {notes.map((n, idx) => (
+                  <div
+                    key={n.id || idx}
+                    className={`${styles.savedNoteCard} ${n.id === activeNoteId ? styles.savedNoteCardActive : ''}`}
+                    onClick={() => onSelectNote(n.id)}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
+                      <strong style={{ fontSize: '11.5px', color: n.id === activeNoteId ? 'var(--olive)' : '#e4e2da' }}>
+                        {n.title || `Ghi chú #${idx + 1}`}
+                      </strong>
+                      {n.id === activeNoteId && (
+                        <span style={{ fontSize: '10px', color: 'var(--olive)', background: 'rgba(179, 199, 133, 0.15)', padding: '1px 6px', borderRadius: '4px' }}>
+                          Đang soạn
+                        </span>
+                      )}
+                    </div>
+                    <div
+                      style={{ fontSize: '11px', color: '#aaa9a2', maxHeight: '42px', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                      dangerouslySetInnerHTML={{ __html: n.content }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </aside>

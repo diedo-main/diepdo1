@@ -281,6 +281,13 @@ export function SearchView({
                 <span className={styles.resultExcerpt}>
                   {highlightText(story.excerpt, query)}
                 </span>
+                {story.noteSnippet && (
+                  <div className={styles.noteSnippet}>
+                    <span className={styles.noteSnippetText}>
+                      &ldquo;{highlightText(story.noteSnippet, query)}&rdquo;
+                    </span>
+                  </div>
+                )}
                 <div className={styles.tags}>
                   {story.tags.map((tag) => (
                     <span key={tag} className={styles.tag}>

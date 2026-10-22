@@ -251,20 +251,59 @@ export default function Page() {
       setLoadingDetail(false)
     }
 
-    // 2. Fetch notes from Supabase
+    // 2. Fetch notes from Supabase with localStorage redundancy
     fetch(`/api/stories/${encodeURIComponent(story.id)}/notes`)
       .then((r) => r.json())
       .then((data) => {
-        if (data.notes && Array.isArray(data.notes)) {
+        if (data.notes && Array.isArray(data.notes) && data.notes.length > 0) {
           setStoryNotes(data.notes)
-          if (data.notes.length > 0) {
-            setActiveNoteId(data.notes[0].id)
-            setNote(data.notes[0].content)
-            setSavedNote(data.notes[0].content)
+          setActiveNoteId(data.notes[0].id)
+          setNote(data.notes[0].content)
+          setSavedNote(data.notes[0].content)
+        } else {
+          const localNote =
+            localStorage.getItem(`life-archive-note-${story.id}`) ||
+            localStorage.getItem('life-archive-note') ||
+            ''
+          if (localNote.trim()) {
+            const fallbackRecord: NoteRecord = {
+              id: -1,
+              episode_id: story.id,
+              user_id: '',
+              title: 'Bài học',
+              content: plainTextToHtml(localNote),
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+            }
+            setStoryNotes([fallbackRecord])
+            setActiveNoteId(-1)
+            setNote(fallbackRecord.content)
+            setSavedNote(fallbackRecord.content)
           }
         }
       })
-      .catch((err) => console.error('Lỗi khi tải notes từ Supabase:', err))
+      .catch((err) => {
+        console.error('Lỗi khi tải notes từ Supabase:', err)
+        const localNote =
+          localStorage.getItem(`life-archive-note-${story.id}`) ||
+          localStorage.getItem('life-archive-note') ||
+          ''
+        if (localNote.trim()) {
+          const fallbackRecord: NoteRecord = {
+            id: -1,
+            episode_id: story.id,
+            user_id: '',
+            title: 'Bài học',
+            content: plainTextToHtml(localNote),
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          }
+          setStoryNotes([fallbackRecord])
+          setActiveNoteId(-1)
+          setNote(fallbackRecord.content)
+          setSavedNote(fallbackRecord.content)
+        }
+      })
 
     // 3. Fetch tags from Supabase
     fetch(`/api/stories/${encodeURIComponent(story.id)}/tags`)
@@ -399,6 +438,17 @@ export default function Page() {
   }
 
   async function handleRemoveTag(tag: string) {
+    if (selected) {
+      try {
+        await fetch(
+          `/api/stories/${encodeURIComponent(selected.id)}/tags/${encodeURIComponent(tag)}`,
+          { method: 'DELETE' }
+        )
+      } catch (err) {
+        console.error('Lỗi khi xóa thẻ trên Supabase:', err)
+      }
+    }
+
     const nextStoryTags = storyCustomTags.filter((t) => t !== tag)
     setStoryCustomTags(nextStoryTags)
 

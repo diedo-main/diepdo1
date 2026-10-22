@@ -28,9 +28,8 @@ async function resolveEpisodeUuid(
 export async function DELETE(_request: NextRequest, { params }: RouteParams) {
   try {
     const { id, tagId } = await params
-    const numericTagId = parseInt(tagId, 10)
 
-    if (!id || isNaN(numericTagId)) {
+    if (!id || !tagId) {
       return NextResponse.json({ error: 'Mã thẻ không hợp lệ.' }, { status: 400 })
     }
 
@@ -59,6 +58,22 @@ export async function DELETE(_request: NextRequest, { params }: RouteParams) {
     const episodeId = await resolveEpisodeUuid(supabase, id)
     if (!episodeId) {
       return NextResponse.json({ error: 'Không tìm thấy câu chuyện.' }, { status: 404 })
+    }
+
+    let numericTagId = parseInt(tagId, 10)
+    if (isNaN(numericTagId)) {
+      const decodedName = decodeURIComponent(tagId).trim()
+      const { data: tagRow } = await supabase
+        .from('tags')
+        .select('id')
+        .eq('name', decodedName)
+        .eq('user_id', user.id)
+        .maybeSingle()
+
+      if (!tagRow) {
+        return NextResponse.json({ success: true, message: 'Thẻ không tồn tại.' })
+      }
+      numericTagId = tagRow.id
     }
 
     const { error: deleteErr } = await supabase

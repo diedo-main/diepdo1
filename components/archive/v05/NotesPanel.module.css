@@ -268,6 +268,24 @@
   color: #e07a5f;
 }
 
+.savedNoteCard {
+  background: #1b1c18;
+  border: 1px solid #30312a;
+  border-radius: 6px;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.savedNoteCard:hover {
+  border-color: #4f5146;
+}
+
+.savedNoteCardActive {
+  border-color: var(--olive);
+  background: rgba(179, 199, 133, 0.08);
+}
+
 /* Mobile full-screen sheet */
 @media (max-width: 768px) {
   .panel {

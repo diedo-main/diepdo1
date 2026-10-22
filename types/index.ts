@@ -18,6 +18,7 @@ export type Story = {
   extractedSender?: string | null
   notesCount?: number
   hasNotes?: boolean
+  noteSnippet?: string | null
 }
 
 export type ViewMode = 'home' | 'search' | 'reading'

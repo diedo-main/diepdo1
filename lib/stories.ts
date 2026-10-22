@@ -116,6 +116,7 @@ export function mapDbToStory(dbRow: {
   tags?: string[] | null
   notes_count?: number
   has_notes?: boolean
+  note_snippet?: string | null
 }): Story {
   const imageUrl = dbRow.image_url || dbRow.channel_image_url || DEFAULT_STORY_IMAGE
 
@@ -186,5 +187,6 @@ export function mapDbToStory(dbRow: {
     extractedSender: dbRow.extracted_sender,
     notesCount: dbRow.notes_count,
     hasNotes: Boolean(dbRow.has_notes),
+    noteSnippet: dbRow.note_snippet || null,
   }
 }

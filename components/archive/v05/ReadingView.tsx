@@ -53,7 +53,9 @@ export function ReadingView({
 }: ReadingViewProps) {
   return (
     <>
-      <section className={styles.readingContainer}>
+      <section
+        className={`${styles.readingContainer} ${notesOpen ? styles.readingContainerWithNotes : ''}`}
+      >
         {/* Sub-header with back button on left and 'Ghi chú & thẻ' on right */}
         <div className={styles.readingSubHeader}>
           <button className={styles.backLink} onClick={onBack}>
@@ -69,6 +71,9 @@ export function ReadingView({
           >
             <SquarePen size={13} />
             <span>Ghi chú & thẻ</span>
+            {notes && notes.length > 0 && (
+              <span className={styles.notesBadge}>{notes.length}</span>
+            )}
           </button>
         </div>
 
@@ -93,6 +98,44 @@ export function ReadingView({
             playing={playing}
             onTogglePlay={onTogglePlay}
           />
+
+          {/* Inline Personal Notes Display */}
+          {notes && notes.length > 0 && (
+            <div className={styles.inlineNotesSection}>
+              <div className={styles.inlineNotesHeader}>
+                <div className={styles.inlineNotesTitle}>
+                  <SquarePen size={13} style={{ color: 'var(--olive)' }} />
+                  <span>Ghi chú cá nhân ({notes.length})</span>
+                </div>
+                <button
+                  type="button"
+                  className={styles.inlineNotesEditBtn}
+                  onClick={onOpenNotes}
+                >
+                  {notesOpen ? 'Đang mở bảng soạn thảo' : 'Mở bảng ghi chú &rarr;'}
+                </button>
+              </div>
+
+              <div className={styles.inlineNotesList}>
+                {notes.map((n, idx) => (
+                  <div
+                    key={n.id || idx}
+                    className={styles.inlineNoteCard}
+                    onClick={() => {
+                      if (n.id && onSelectNote) onSelectNote(n.id)
+                      onOpenNotes()
+                    }}
+                  >
+                    {n.title && <div className={styles.inlineNoteTitle}>{n.title}</div>}
+                    <div
+                      className={styles.inlineNoteContent}
+                      dangerouslySetInnerHTML={{ __html: n.content }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className={styles.confessionSection}>
             {/* Google Docs Banner if source doc exists */}

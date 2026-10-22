@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { mapDbToStory, removeVietnameseTones } from '@/lib/stories'
+import { htmlToCleanPlainText } from '@/lib/notes-format'
 
 export const dynamic = 'force-dynamic'
 
@@ -163,12 +164,38 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Preserve exact sort order from stage 1
+    // Stage 3: Fetch note snippets if user has personal notes
+    const { data: noteRows } = await supabase
+      .from('notes')
+      .select('episode_id, content')
+      .in('episode_id', ids)
+      .eq('user_id', user.id)
+      .order('updated_at', { ascending: false })
+
+    const noteMap = new Map<string, string>()
+    if (noteRows) {
+      for (const nr of noteRows) {
+        if (!noteMap.has(nr.episode_id) && nr.content) {
+          const cleanSnippet = htmlToCleanPlainText(nr.content).slice(0, 120)
+          if (cleanSnippet) noteMap.set(nr.episode_id, cleanSnippet)
+        }
+      }
+    }
+
+    // Preserve exact sort order from stage 1 and inject note snippets
     const storyMap = new Map((storyRows || []).map((s) => [s.id, s]))
     const orderedStories = ids
-      .map((id) => storyMap.get(id))
+      .map((id) => {
+        const s = storyMap.get(id)
+        if (!s) return null
+        return mapDbToStory({
+          ...s,
+          note_snippet: noteMap.get(id) || null,
+          has_notes: noteMap.has(id),
+          notes_count: noteMap.has(id) ? 1 : 0,
+        })
+      })
       .filter((s): s is NonNullable<typeof s> => Boolean(s))
-      .map(mapDbToStory)
 
     return NextResponse.json({
       stories: orderedStories,
