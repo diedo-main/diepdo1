@@ -1,0 +1,196 @@
+.readingContainer {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+
+.readingGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 680px) 340px;
+  gap: 72px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+}
+
+.backButton {
+  border: 0;
+  background: transparent;
+  color: var(--muted, #aaa9a2);
+  padding: 0 0 24px;
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s ease;
+}
+
+.backButton:hover {
+  color: var(--olive, #b3c785);
+}
+
+.articleDate {
+  font-size: 13px;
+  color: var(--muted, #aaa9a2);
+  margin-bottom: 8px;
+}
+
+.articleTitle {
+  font: 400 clamp(30px, 4.5vw, 42px)/1.18 Georgia, serif;
+  letter-spacing: -1px;
+  margin: 0 0 16px;
+  color: var(--paper, #f1efe9);
+  text-wrap: balance;
+}
+
+.tagsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.tagPill {
+  display: inline-block;
+  border: 1px solid #4d543e;
+  border-radius: 999px;
+  color: #cfd4bc;
+  padding: 3px 10px;
+  font-size: 11px;
+}
+
+.docBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(179, 199, 133, 0.08);
+  border: 1px solid rgba(179, 199, 133, 0.25);
+  border-radius: 4px;
+  padding: 10px 14px;
+  margin-bottom: 24px;
+  gap: 12px;
+}
+
+.docInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #cfd4bc;
+  font-size: 13px;
+}
+
+.docLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--olive, #b3c785);
+  font-size: 12px;
+  text-decoration: none;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.docLink:hover {
+  text-decoration: underline;
+}
+
+.confessionHeader {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--olive, #b3c785);
+  font-weight: 500;
+  margin: 32px 0 16px;
+  text-transform: uppercase;
+}
+
+.senderBox {
+  font-size: 13px;
+  color: var(--muted, #aaa9a2);
+  margin-bottom: 16px;
+  padding: 8px 12px;
+  border-left: 2px solid var(--olive, #b3c785);
+  background: rgba(29, 31, 26, 0.6);
+}
+
+.senderBox strong {
+  color: var(--paper, #f1efe9);
+  margin-right: 6px;
+}
+
+.confessionBody {
+  font: 18px/1.92 Georgia, serif;
+  color: #e2e0da;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.confessionBody p {
+  margin: 0;
+  text-align: justify;
+}
+
+.loadingDetail {
+  padding: 24px 0;
+  color: var(--muted, #aaa9a2);
+  font-style: italic;
+  font-size: 14px;
+}
+
+/* Floating Mobile Note Button */
+.mobileNoteBtn {
+  display: none;
+}
+
+@media (max-width: 820px) {
+  .readingGrid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .desktopLeaf {
+    display: none;
+  }
+
+  .mobileNoteBtn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: fixed;
+    right: 20px;
+    bottom: 24px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--olive, #b3c785);
+    color: #1a1c16;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    cursor: pointer;
+    min-height: 44px;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+  }
+
+  .mobileNoteBtn:hover {
+    transform: translateY(-2px);
+    background: #c2d599;
+  }
+
+  .mobileNoteBtn:active {
+    transform: translateY(0);
+  }
+
+  .badge {
+    background: #1a1c16;
+    color: var(--olive, #b3c785);
+    border-radius: 10px;
+    padding: 1px 6px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+}

@@ -2,11 +2,11 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { NoteRecord, Story, ViewMode, SortField, SortOrder } from '@/types'
-import { VersionSwitcher, MigrationModal, UIVersion, v0, v05 } from '@/components/archive'
+import { VersionSwitcher, MigrationModal, UIVersion, v0, v05, v1 } from '@/components/archive'
 import { plainTextToHtml } from '@/lib/notes-format'
 
 export default function Page() {
-  const [version, setVersion] = useState<UIVersion>('v0.5')
+  const [version, setVersion] = useState<UIVersion>('v1')
   const [mounted, setMounted] = useState(false)
   const [showMigrationModal, setShowMigrationModal] = useState(false)
   const [view, setView] = useState<ViewMode>('home')
@@ -45,10 +45,12 @@ export default function Page() {
   useEffect(() => {
     setMounted(true)
 
-    // Load saved UI version with v0.5 default
+    // Load saved UI version with v1 default
     const savedVersion = localStorage.getItem('life-archive-ui-version') as UIVersion | null
-    if (savedVersion === 'v0' || savedVersion === 'v0.5') {
+    if (savedVersion === 'v0' || savedVersion === 'v0.5' || savedVersion === 'v1') {
       setVersion(savedVersion)
+    } else {
+      setVersion('v1')
     }
 
     setSavedNote(localStorage.getItem('life-archive-note') || '')
@@ -85,6 +87,22 @@ export default function Page() {
   function handleVersionChange(newVersion: UIVersion) {
     setVersion(newVersion)
     localStorage.setItem('life-archive-ui-version', newVersion)
+  }
+
+  function handleOpenV1Search() {
+    handleSearch('')
+
+    const focusSearchInput = () => {
+      const input = document.querySelector<HTMLInputElement>('input[aria-label="Tìm kiếm"]')
+      if (input) {
+        input.focus()
+      } else {
+        setTimeout(focusSearchInput, 30)
+      }
+    }
+    requestAnimationFrame(() => {
+      setTimeout(focusSearchInput, 20)
+    })
   }
 
   // Fetch stories from API with pagination, server-side sort & filter
@@ -471,7 +489,7 @@ export default function Page() {
       <header
         className="topbar"
         style={
-          version === 'v0.5'
+          version === 'v0.5' || version === 'v1'
             ? {
                 position: 'relative',
                 display: 'flex',
@@ -481,12 +499,12 @@ export default function Page() {
             : undefined
         }
       >
-        {!(version === 'v0.5' && view === 'home') && (
+        {!((version === 'v0.5' || version === 'v1') && view === 'home') && (
           <button
             className="wordmark"
             onClick={handleResetToHome}
             style={
-              version === 'v0.5'
+              version === 'v0.5' || version === 'v1'
                 ? {
                     position: 'static',
                     transform: 'none',
@@ -501,7 +519,7 @@ export default function Page() {
         <div
           className="top-actions"
           style={
-            version === 'v0.5'
+            version === 'v0.5' || version === 'v1'
               ? {
                   position: 'absolute',
                   right: 0,
@@ -521,15 +539,6 @@ export default function Page() {
               title={userEmail ? `Tài khoản: ${userEmail} (Nhấn để đăng xuất)` : 'Đăng xuất'}
               style={{ fontSize: '11px', display: 'flex', alignItems: 'center', gap: '5px' }}
             >
-              <span
-                style={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: '50%',
-                  background: 'var(--olive)',
-                  display: 'inline-block',
-                }}
-              />
               Owner
             </button>
           ) : (
@@ -604,60 +613,113 @@ export default function Page() {
       ) : (
         /* Version 0.5: Giao diện V0.5 chuẩn Figma Reference với CSS Modules */
         <>
-          {view === 'home' && (
-            <v05.HomeView query={query} onQueryChange={setQuery} onSearch={handleSearch} />
-          )}
+          {view === 'home' &&
+            (version === 'v1' ? (
+              <v1.HomeView onOpenSearch={handleOpenV1Search} />
+            ) : (
+              <v05.HomeView query={query} onQueryChange={setQuery} onSearch={handleSearch} />
+            ))}
 
-          {view === 'search' && (
-            <v05.SearchView
-              query={query}
-              onQueryChange={setQuery}
-              onSearch={handleSearch}
-              results={stories}
-              total={total}
-              loading={loading}
-              loadingMore={loadingMore}
-              hasMore={hasMore}
-              onLoadMore={handleLoadMore}
-              error={error}
-              onRetry={() => fetchStories(query, page)}
-              onLogin={handleOwnerLogin}
-              onSelectStory={handleOpenStory}
-              sortBy={sortBy}
-              sortOrder={sortOrder}
-              onSortChange={handleSortChange}
-              contentStatus={contentStatus}
-              onStatusChange={handleStatusChange}
-              hasNotesFilter={hasNotesFilter}
-              onHasNotesChange={handleHasNotesChange}
-              availableTags={effectiveCustomTags}
-            />
-          )}
+          {view === 'search' &&
+            (version === 'v1' ? (
+              <v1.SearchView
+                query={query}
+                onQueryChange={setQuery}
+                onSearch={handleSearch}
+                results={stories}
+                total={total}
+                loading={loading}
+                loadingMore={loadingMore}
+                hasMore={hasMore}
+                onLoadMore={handleLoadMore}
+                error={error}
+                onRetry={() => fetchStories(query, page)}
+                onLogin={handleOwnerLogin}
+                onSelectStory={handleOpenStory}
+                sortBy={sortBy}
+                sortOrder={sortOrder}
+                onSortChange={handleSortChange}
+                contentStatus={contentStatus}
+                onStatusChange={handleStatusChange}
+                hasNotesFilter={hasNotesFilter}
+                onHasNotesChange={handleHasNotesChange}
+                availableTags={effectiveCustomTags}
+              />
+            ) : (
+              <v05.SearchView
+                query={query}
+                onQueryChange={setQuery}
+                onSearch={handleSearch}
+                results={stories}
+                total={total}
+                loading={loading}
+                loadingMore={loadingMore}
+                hasMore={hasMore}
+                onLoadMore={handleLoadMore}
+                error={error}
+                onRetry={() => fetchStories(query, page)}
+                onLogin={handleOwnerLogin}
+                onSelectStory={handleOpenStory}
+                sortBy={sortBy}
+                sortOrder={sortOrder}
+                onSortChange={handleSortChange}
+                contentStatus={contentStatus}
+                onStatusChange={handleStatusChange}
+                hasNotesFilter={hasNotesFilter}
+                onHasNotesChange={handleHasNotesChange}
+                availableTags={effectiveCustomTags}
+              />
+            ))}
 
-          {view === 'reading' && selected && (
-            <v05.ReadingView
-              story={selected}
-              onBack={() => setView('search')}
-              notesOpen={notesOpen}
-              onOpenNotes={() => setNotesOpen(true)}
-              onCloseNotes={() => setNotesOpen(false)}
-              playing={playing}
-              onTogglePlay={() => setPlaying(!playing)}
-              customTags={effectiveCustomTags}
-              onAddTag={handleAddTag}
-              onRemoveTag={handleRemoveTag}
-              note={note}
-              onNoteChange={setNote}
-              savedNote={savedNote}
-              onSaveNote={handleSaveNote}
-              onDeleteNote={handleDeleteNote}
-              loadingDetail={loadingDetail}
-              notes={storyNotes}
-              activeNoteId={activeNoteId}
-              onSelectNote={handleSelectNote}
-              onCreateNewNote={handleCreateNewNote}
-            />
-          )}
+          {view === 'reading' &&
+            selected &&
+            (version === 'v1' ? (
+              <v1.ReadingView
+                story={selected}
+                onBack={() => setView('search')}
+                notesOpen={notesOpen}
+                onOpenNotes={() => setNotesOpen(true)}
+                onCloseNotes={() => setNotesOpen(false)}
+                playing={playing}
+                onTogglePlay={() => setPlaying(!playing)}
+                customTags={effectiveCustomTags}
+                onAddTag={handleAddTag}
+                onRemoveTag={handleRemoveTag}
+                note={note}
+                onNoteChange={setNote}
+                savedNote={savedNote}
+                onSaveNote={handleSaveNote}
+                onDeleteNote={handleDeleteNote}
+                loadingDetail={loadingDetail}
+                notes={storyNotes}
+                activeNoteId={activeNoteId}
+                onSelectNote={handleSelectNote}
+                onCreateNewNote={handleCreateNewNote}
+              />
+            ) : (
+              <v05.ReadingView
+                story={selected}
+                onBack={() => setView('search')}
+                notesOpen={notesOpen}
+                onOpenNotes={() => setNotesOpen(true)}
+                onCloseNotes={() => setNotesOpen(false)}
+                playing={playing}
+                onTogglePlay={() => setPlaying(!playing)}
+                customTags={effectiveCustomTags}
+                onAddTag={handleAddTag}
+                onRemoveTag={handleRemoveTag}
+                note={note}
+                onNoteChange={setNote}
+                savedNote={savedNote}
+                onSaveNote={handleSaveNote}
+                onDeleteNote={handleDeleteNote}
+                loadingDetail={loadingDetail}
+                notes={storyNotes}
+                activeNoteId={activeNoteId}
+                onSelectNote={handleSelectNote}
+                onCreateNewNote={handleCreateNewNote}
+              />
+            ))}
         </>
       )}
 

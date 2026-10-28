@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Check, ChevronDown } from 'lucide-react'
 import styles from './VersionSwitcher.module.css'
 
-export type UIVersion = 'v0' | 'v0.5'
+export type UIVersion = 'v0' | 'v0.5' | 'v1'
 
 interface VersionSwitcherProps {
   version: UIVersion
@@ -57,8 +57,8 @@ export function VersionSwitcher({
     }
   }, [open])
 
-  // Display version cleanly; when not mounted yet (SSR hydration), show 'v0.5' default without flicker
-  const displayVersion = mounted ? version : 'v0.5'
+  // Display version cleanly; when not mounted yet (SSR hydration), show the persisted default without flicker.
+  const displayVersion = mounted ? version : 'v1'
 
   return (
     <div className={styles.container} ref={containerRef}>
@@ -68,8 +68,8 @@ export function VersionSwitcher({
         onClick={() => setOpen(!open)}
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label="Chọn phiên bản giao diện (v0 / v0.5)"
-        title="Chuyển đổi giao diện (v0 hoặc v0.5)"
+        aria-label="Chọn phiên bản giao diện (v1 / v0.5 / v0)"
+        title="Chuyển đổi giao diện"
       >
         <span>{displayVersion}</span>
         <ChevronDown
@@ -80,6 +80,19 @@ export function VersionSwitcher({
 
       {open && (
         <div className={styles.dropdown} role="listbox">
+          <button
+            type="button"
+            role="option"
+            aria-selected={displayVersion === 'v1'}
+            className={`${styles.item} ${displayVersion === 'v1' ? styles.itemActive : ''}`}
+            onClick={() => {
+              onVersionChange('v1')
+              setOpen(false)
+            }}
+          >
+            <span>v1</span>
+            {displayVersion === 'v1' && <Check size={12} />}
+          </button>
           <button
             type="button"
             role="option"

@@ -1,0 +1,81 @@
+.homeView {
+  display: flex;
+  min-height: calc(100dvh - 64px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xl, 32px);
+  padding: 0 var(--space-md, 16px) 10dvh;
+  text-align: center;
+}
+
+.wordmark {
+  margin: 0;
+  color: var(--foreground, #f1efe9);
+  font: var(--text-display, clamp(38px, 6vw, 56px))/1.04 var(--font-display, Georgia, serif);
+  font-weight: var(--display-weight, 400);
+  letter-spacing: var(--tracking-display, -0.6px);
+}
+
+.wordmark span {
+  color: var(--olive, #b3c785);
+}
+
+.searchButton {
+  display: inline-flex;
+  min-height: 48px;
+  min-width: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm, 10px);
+  border: 1px solid color-mix(in oklch, var(--olive, #b3c785) 58%, var(--field-border, #44453f));
+  border-radius: var(--radius-pill, 9999px);
+  background: color-mix(in oklch, var(--olive, #b3c785) 14%, var(--panel, #1d1f1a));
+  color: var(--foreground, #f1efe9);
+  padding: 0 var(--space-lg, 24px);
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: settle 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.searchButton:hover {
+  transform: translateY(-2px);
+  border-color: var(--olive, #b3c785);
+  background: color-mix(in oklch, var(--olive, #b3c785) 22%, var(--panel, #1d1f1a));
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.42);
+}
+
+.searchButton:active {
+  transform: translateY(0);
+}
+
+.searchButton:focus-visible {
+  outline: 2px solid var(--olive, #b3c785);
+  outline-offset: 3px;
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .searchButton {
+    animation: none;
+    transition: none;
+  }
+  .searchButton:hover {
+    transform: none;
+  }
+}

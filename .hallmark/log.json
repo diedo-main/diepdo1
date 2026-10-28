@@ -1,0 +1,26 @@
+[
+ {
+  "scope": "app",
+  "shape": "app screen",
+  "theme": "spore",
+  "axes": "dark/roman-serif/warm",
+  "hero": "none",
+  "nav": "compact owner controls",
+  "footer": "none",
+  "imagery": "existing product capture unavailable: local Puppeteer missing",
+  "photos": [],
+  "entry": "v0.5 archive home",
+  "fingerprint": "memory-threshold-search",
+  "sections": [
+   "home search",
+   "recent-search suggestions"
+  ],
+  "signature": "the search field as a memory threshold",
+  "waived": [
+   "render tier unavailable: local Puppeteer or Chromium path missing"
+  ],
+  "prompt": "$hallmark; go ahead",
+  "date": "2026-10-28",
+  "mode": "build"
+ }
+]

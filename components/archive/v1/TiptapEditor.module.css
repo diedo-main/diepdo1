@@ -1,0 +1,108 @@
+.editorContainer {
+  display: flex;
+  flex-direction: column;
+  background: #20221d;
+  border: 1px solid var(--line, #393c33);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color 0.15s ease;
+}
+
+.editorContainer:focus-within {
+  border-color: var(--olive, #b3c785);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 8px;
+  background: rgba(29, 31, 26, 0.8);
+  border-bottom: 1px solid var(--line, #393c33);
+  flex-wrap: wrap;
+}
+
+.toolButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--muted, #aaa9a2);
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.toolButton:hover {
+  background: rgba(179, 199, 133, 0.12);
+  color: var(--paper, #f1efe9);
+}
+
+.toolButtonActive {
+  background: rgba(179, 199, 133, 0.2);
+  color: var(--olive, #b3c785);
+}
+
+.separator {
+  width: 1px;
+  height: 16px;
+  background: var(--line, #393c33);
+  margin: 0 4px;
+}
+
+.editorBody {
+  min-height: 180px;
+  padding: 12px;
+  color: var(--paper, #f1efe9);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.editorBody :global(.ProseMirror) {
+  min-height: 150px;
+  outline: none;
+}
+
+.editorBody :global(.ProseMirror p) {
+  margin: 0 0 8px 0;
+}
+
+.editorBody :global(.ProseMirror p.is-editor-empty:first-child::before) {
+  content: attr(data-placeholder);
+  float: left;
+  color: #72736b;
+  pointer-events: none;
+  height: 0;
+}
+
+.editorBody :global(.ProseMirror h2) {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  margin: 12px 0 6px 0;
+  color: var(--paper, #f1efe9);
+}
+
+.editorBody :global(.ProseMirror h3) {
+  font-family: Georgia, serif;
+  font-size: 16px;
+  margin: 10px 0 4px 0;
+  color: var(--paper, #f1efe9);
+}
+
+.editorBody :global(.ProseMirror ul),
+.editorBody :global(.ProseMirror ol) {
+  margin: 6px 0;
+  padding-left: 20px;
+}
+
+.editorBody :global(.ProseMirror blockquote) {
+  border-left: 2px solid var(--olive, #b3c785);
+  margin: 8px 0;
+  padding-left: 10px;
+  color: var(--muted, #aaa9a2);
+  font-style: italic;
+}

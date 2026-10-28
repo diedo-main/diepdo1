@@ -1,0 +1,20 @@
+{
+  "scanned": "2026-10-27",
+  "findings": {
+    "fonts": "Arial/Helvetica body and Georgia serif display face in app/globals.css",
+    "palette": "dark archive palette declared in :root, with several legacy literal surface colours",
+    "motion": "CSS transitions only; no motion library in package.json",
+    "spacing": "component CSS with local pixel spacing; Tailwind CSS 4 is installed",
+    "framework": "Next.js 16.4.0 App Router, React 19"
+  },
+  "preserve": [
+    "quiet reading-first archive interaction model",
+    "Vietnamese archive copy and authenticated private-owner flow",
+    "dark charcoal, olive, ivory visual language",
+    "v0 and v0.5 component separation"
+  ],
+  "introduce": [
+    "a chosen Hallmark page or app-screen direction after the brief",
+    "accessibility and token compliance required by Hallmark gates"
+  ]
+}

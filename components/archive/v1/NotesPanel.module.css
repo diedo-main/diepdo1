@@ -1,0 +1,254 @@
+.noteLeaf {
+  position: sticky;
+  top: 24px;
+  padding: 10px 0 0 24px;
+  border-left: 1px solid var(--olive-deep, #67734e);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.leafHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.leafTitle {
+  font: 400 22px Georgia, serif;
+  margin: 0;
+  color: var(--paper, #f1efe9);
+}
+
+.saveStatus {
+  color: var(--olive, #b3c785);
+  font-size: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.saveStatusError {
+  color: #e07a5f;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.notesTabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding-bottom: 4px;
+}
+
+.tabItem {
+  border: 1px solid var(--line, #393c33);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--muted, #aaa9a2);
+  padding: 3px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tabItem:hover {
+  border-color: var(--olive, #b3c785);
+  color: var(--paper, #f1efe9);
+}
+
+.tabItemActive {
+  border-color: var(--olive, #b3c785);
+  background: rgba(179, 199, 133, 0.15);
+  color: var(--olive, #b3c785);
+  font-weight: 500;
+}
+
+.addNoteBtn {
+  border: 1px dashed var(--line, #393c33);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--muted, #aaa9a2);
+  padding: 3px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.15s ease;
+}
+
+.addNoteBtn:hover {
+  border-color: var(--olive, #b3c785);
+  color: var(--olive, #b3c785);
+}
+
+.deleteNoteBtn {
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  color: #8c8b82;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  transition: all 0.15s ease;
+}
+
+.deleteNoteBtn:hover {
+  color: #e07a5f;
+  background: rgba(224, 122, 95, 0.12);
+}
+
+.tagsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.tagsTitle {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted, #aaa9a2);
+}
+
+.tagsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.tagPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid #4d543e;
+  border-radius: 999px;
+  background: transparent;
+  color: #cfd4bc;
+  padding: 3px 8px;
+  font-size: 11px;
+}
+
+.removeTagBtn {
+  border: 0;
+  background: transparent;
+  color: #8c8b82;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  transition: color 0.12s ease;
+}
+
+.removeTagBtn:hover {
+  color: #e07a5f;
+}
+
+.addTagTrigger {
+  border: 1px dashed #4d543e;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted, #aaa9a2);
+  padding: 3px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.15s ease;
+}
+
+.addTagTrigger:hover {
+  border-color: var(--olive, #b3c785);
+  color: var(--olive, #b3c785);
+}
+
+.tagInputForm {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tagInput {
+  height: 26px;
+  padding: 0 8px;
+  background: #20221d;
+  border: 1px solid var(--line, #393c33);
+  border-radius: 4px;
+  color: var(--paper, #f1efe9);
+  font-size: 12px;
+  outline: none;
+}
+
+.tagInput:focus {
+  border-color: var(--olive, #b3c785);
+}
+
+.tagSubmitBtn {
+  height: 26px;
+  padding: 0 8px;
+  background: var(--olive, #b3c785);
+  color: #1c1d19;
+  border: 0;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Mobile Modal Sheet */
+.mobileOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  animation: fadeIn 0.2s ease;
+}
+
+.mobileSheet {
+  width: 100%;
+  max-height: 90vh;
+  background: #1d1f1a;
+  border-top: 1px solid var(--line, #393c33);
+  border-radius: 16px 16px 0 0;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8);
+  animation: slideUp 0.25s ease;
+}
+
+.mobileCloseBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 0;
+  background: #252822;
+  color: var(--paper, #f1efe9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
